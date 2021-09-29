@@ -96,7 +96,7 @@ export async function main(denops: Denops): Promise<void> {
         const bufnr = await denops.call("bufnr");
         ensureNumber(bufnr);
         await denops.call("setbufline", bufnr, 1, text);
-        await denops.cmd("nnoremap <buffer> q :bw!<CR>");
+        await denops.cmd("nnoremap <silent> <buffer> q :bw!<CR>");
       }
     },
   };
