@@ -1,4 +1,11 @@
-import { Denops, ensureNumber, ensureString, mapping, vars } from "./deps.ts";
+import {
+  Denops,
+  ensureNumber,
+  ensureString,
+  mapping,
+  Mode,
+  vars,
+} from "./deps.ts";
 
 const defaultEndpoint =
   "https://script.google.com/macros/s/AKfycbywwDmlmQrNPYoxL90NCZYjoEzuzRcnRuUmFCPzEqG7VdWBAhU/exec";
@@ -8,23 +15,29 @@ export async function main(denops: Denops): Promise<void> {
     `command! -bang -range -nargs=? Translate call denops#notify("${denops.name}", "translate", ["<bang>", <line1>, <line2>, <f-args>])`,
   );
 
-  mapping.map(
-    denops,
-    "<silent> <Plug>(Translate)",
-    ":<C-u>Translate<CR>",
+  const maps = [
     {
+      lhs: "<silent> <Plug>(Translate)",
+      rhs: ":<C-u>Translate<CR>",
       mode: ["n"],
     },
-  );
-
-  mapping.map(
-    denops,
-    "<silent> <Plug>(VTranslate)",
-    ":Translate<CR>",
     {
+      lhs: "<silent> <Plug>(VTranslate)",
+      rhs: ":Translate<CR>",
       mode: ["v"],
     },
-  );
+  ];
+
+  for (const map of maps) {
+    mapping.map(
+      denops,
+      map.lhs,
+      map.rhs,
+      {
+        mode: map.mode as Mode[],
+      },
+    );
+  }
 
   denops.dispatcher = {
     async translate(
