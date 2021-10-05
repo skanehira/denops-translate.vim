@@ -1,11 +1,13 @@
 import {
   Denops,
+  ensureBoolean,
   ensureNumber,
   ensureString,
   mapping,
   Mode,
   vars,
 } from "./deps.ts";
+import { parseArgs } from "./util.ts";
 
 const defaultEndpoint =
   "https://script.google.com/macros/s/AKfycbywwDmlmQrNPYoxL90NCZYjoEzuzRcnRuUmFCPzEqG7VdWBAhU/exec";
@@ -48,31 +50,28 @@ export async function main(denops: Denops): Promise<void> {
     ): Promise<void> {
       ensureNumber(start);
       ensureNumber(end);
+      ensureString(bang);
 
-      let input: string[] = [];
-      if (arg) {
-        ensureString(arg);
-        input = [arg];
-      } else {
-        input = await denops.eval(`getline(${start}, ${end})`) as string[];
-      }
+      const opt = await parseArgs(
+        denops,
+        bang === "!",
+        start,
+        end,
+        arg ? arg as string : "",
+      );
 
       const endpoint = await vars.g.get<string>(
         denops,
         "translate_endpoint",
         defaultEndpoint,
       );
+
       ensureString(endpoint);
-
       const body = {
-        source: "en",
-        target: "ja",
-        text: input.join("\n"), // TODO support CLRF
+        source: opt.source,
+        target: opt.target,
+        text: opt.text,
       };
-
-      if (bang) {
-        [body.source, body.target] = [body.target, body.source];
-      }
 
       const resp = await fetch(endpoint, {
         method: "POST",
