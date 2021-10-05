@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         deno-version: [v1.x]
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest]
     name: deno lint
     runs-on: ${{ matrix.os }}
     steps:
@@ -27,7 +27,6 @@ jobs:
     strategy:
       matrix:
         runner:
-          - windows-latest
           - macos-latest
           - ubuntu-latest
         version:
