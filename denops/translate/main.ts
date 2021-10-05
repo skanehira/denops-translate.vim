@@ -1,13 +1,12 @@
 import {
   Denops,
-  ensureBoolean,
   ensureNumber,
   ensureString,
   mapping,
   Mode,
   vars,
 } from "./deps.ts";
-import { parseArgs } from "./util.ts";
+import { Option, parseArgs } from "./util.ts";
 
 const defaultEndpoint =
   "https://script.google.com/macros/s/AKfycbywwDmlmQrNPYoxL90NCZYjoEzuzRcnRuUmFCPzEqG7VdWBAhU/exec";
@@ -52,13 +51,25 @@ export async function main(denops: Denops): Promise<void> {
       ensureNumber(end);
       ensureString(bang);
 
-      const opt = await parseArgs(
-        denops,
-        bang === "!",
-        start,
-        end,
-        arg ? arg as string : "",
-      );
+      let opt = {} as Option;
+      try {
+        opt = await parseArgs(
+          denops,
+          bang === "!",
+          start,
+          end,
+          arg ? arg as string : "",
+        );
+      } catch (e) {
+        console.error(`
+${e}
+Usage:
+  :Translate
+  :Translate {message}
+  :Translate {source} {target}
+  :Translate {source} {target} {message}`);
+        return;
+      }
 
       const endpoint = await vars.g.get<string>(
         denops,

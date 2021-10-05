@@ -7,11 +7,6 @@ export type Option = {
   text: string;
 };
 
-// Usage:
-//  :Translate
-//  :Translate {message}
-//  :Translate {source} {target}
-//  :Translate {source} {target} {message}
 export async function parseArgs(
   denops: Denops,
   bang: boolean,
@@ -32,8 +27,8 @@ export async function parseArgs(
       skipWhitespace = !skipWhitespace;
       i++;
       if (i < max && arg[i] === " ") {
-        word += arg[i]
-        i++
+        word += arg[i];
+        i++;
       }
       continue;
     }
