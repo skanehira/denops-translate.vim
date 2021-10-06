@@ -1,0 +1,103 @@
+*translate.txt*	translate languages
+
+Version : 0.0.1
+Author  : skanehira <sho19921005@gmai.com>
+License : MIT license  {{{
+    Permission is hereby granted, free of charge, to any person obtaining
+    a copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+    The above copyright notice and this permission notice shall be included
+    in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+}}}
+
+==============================================================================
+CONTENTS					*translate-contents*
+
+INTRODUCTION			|translate-introduction|
+USAGE				|translate-usage|
+INTERFACE			|translate-interface|
+  VARIABLES			  |translate-variables|
+  COMMANDS			  |translate-commands|
+  KEY-MAPPINGS			  |translate-key-mappings|
+  FUNCTIONS			  |translate-functions|
+TODO				|translate-todo|
+CHANGELOG			|translate-changelog|
+
+
+==============================================================================
+INTRODUCTION					*translate-introduction*
+
+*translate.vim* is a translate plugin
+
+Latest version:
+https://github.com/skanehira/denops-translate.vim
+
+
+==============================================================================
+USAGE						*translate-usage*
+
+
+
+==============================================================================
+INTERFACE					*translate-interface*
+
+------------------------------------------------------------------------------
+VARIABLES					*translate-variables*
+
+g:translate_source				*g:translate_source*
+	Default value: "en"
+	The language code is bellow.
+	https://cloud.google.com/translate/docs/languages
+
+g:translate_target				*g:translate_target*
+	Default value: "ja"
+	The language code is bellow.
+	https://cloud.google.com/translate/docs/languages
+
+g:translate_endpoint				*translate_endpoint*
+	The translate api endpoint.
+
+------------------------------------------------------------------------------
+COMMANDS					*translate-commands*
+
+:Translate[!] [{source} {target}] [{text}]	*:Translate*
+	Translate {text} from {source} to {target}.
+	When arguments doesn't specific, then current line will be translated
+	from |g:translate_target| to |g:translate_source|.
+	If you use "!", then {source} and {target} will be exchanged.
+
+------------------------------------------------------------------------------
+KEY-MAPPINGS					*translate-key-mappings*
+
+<Plug>(Translate)				*<Plug>(Translate)*
+	Translate selected line.
+
+<Plug>(VTranslate)				*<Plug>(VTranslate)*
+	Translate selected lines.
+
+------------------------------------------------------------------------------
+FUNCTIONS					*translate-functions*
+
+
+==============================================================================
+TODO						*translate-todo*
+
+
+
+==============================================================================
+CHANGELOG					*translate-changelog*
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:noet:fen:

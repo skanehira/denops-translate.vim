@@ -65,9 +65,9 @@ export async function main(denops: Denops): Promise<void> {
 ${e}
 Usage:
   :Translate
-  :Translate {message}
+  :Translate {text}
   :Translate {source} {target}
-  :Translate {source} {target} {message}`);
+  :Translate {source} {target} {text}`);
         return;
       }
 
