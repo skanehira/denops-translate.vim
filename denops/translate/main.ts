@@ -90,7 +90,7 @@ Usage:
       });
 
       const text = (await resp.text() as string).split("\n");
-      const height = text.length;
+      const height = text.length + 1;
 
       const exists = await denops.call("bufexists", "[translate]") as boolean;
       if (exists) {
