@@ -74,7 +74,7 @@ COMMANDS					*translate-commands*
 
 :Translate[!] [{source} {target}] [{text}]	*:Translate*
 	Translate {text} from {source} to {target}.
-	When arguments doesn't specific, then current line will be translated
+	When arguments doesn't specified, then current line will be translated
 	from |g:translate_target| to |g:translate_source|.
 	If you use "!", then {source} and {target} will be exchanged.
 
