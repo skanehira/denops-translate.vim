@@ -12,6 +12,8 @@ const defaultEndpoint =
   "https://script.google.com/macros/s/AKfycbywwDmlmQrNPYoxL90NCZYjoEzuzRcnRuUmFCPzEqG7VdWBAhU/exec";
 
 export async function main(denops: Denops): Promise<void> {
+  let resultWinID: number;
+
   await denops.cmd(
     `command! -bang -range -nargs=? Translate call denops#notify("${denops.name}", "translate", ["<bang>", <line1>, <line2>, <f-args>])`,
   );
@@ -98,7 +100,9 @@ Usage:
         ensureNumber(bufnr);
         await denops.cmd(`silent call deletebufline(${bufnr}, 1, "$")`);
         await denops.call("setbufline", bufnr, 1, text);
+        await denops.call("win_execute", resultWinID, `resize ${height}`, 1);
       } else {
+        const currentWinID = await denops.call("win_getid");
         await denops.cmd(`${height}new [translate]`);
         await denops.cmd(
           `setlocal buftype=nofile noswapfile nonumber bufhidden=hide`,
@@ -107,6 +111,8 @@ Usage:
         ensureNumber(bufnr);
         await denops.call("setbufline", bufnr, 1, text);
         await denops.cmd("nnoremap <silent> <buffer> q :bw!<CR>");
+        resultWinID = await denops.call("win_getid") as number;
+        await denops.call("win_gotoid", currentWinID);
       }
     },
   };
