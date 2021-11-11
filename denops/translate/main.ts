@@ -7,13 +7,12 @@ import {
   vars,
 } from "./deps.ts";
 import { Option, parseArgs } from "./util.ts";
+import { floatWindow, normalWindow, popupWindow } from "./window.ts";
 
 const defaultEndpoint =
   "https://script.google.com/macros/s/AKfycbywwDmlmQrNPYoxL90NCZYjoEzuzRcnRuUmFCPzEqG7VdWBAhU/exec";
 
 export async function main(denops: Denops): Promise<void> {
-  let resultWinID: number;
-
   await denops.cmd(
     `command! -bang -range -nargs=? Translate call denops#notify("${denops.name}", "translate", ["<bang>", <line1>, <line2>, <f-args>])`,
   );
@@ -79,6 +78,12 @@ Usage:
         defaultEndpoint,
       );
 
+      const usePopupWindow = await vars.g.get<boolean>(
+        denops,
+        "translate_popup_window",
+        true,
+      );
+
       ensureString(endpoint);
       const body = {
         source: opt.source,
@@ -92,28 +97,16 @@ Usage:
       });
 
       const text = (await resp.text() as string).split("\n");
-      const height = text.length + 1;
-
-      const exists = await denops.call("bufexists", "[translate]") as boolean;
-      if (exists) {
-        const bufnr = await denops.call("bufnr", "\\[translate\\]");
-        ensureNumber(bufnr);
-        await denops.cmd(`silent call deletebufline(${bufnr}, 1, "$")`);
-        await denops.call("setbufline", bufnr, 1, text);
-        await denops.call("win_execute", resultWinID, `resize ${height}`, 1);
-      } else {
-        const currentWinID = await denops.call("win_getid");
-        await denops.cmd(`${height}new [translate]`);
-        await denops.cmd(
-          `setlocal buftype=nofile noswapfile nonumber bufhidden=hide`,
-        );
-        const bufnr = await denops.call("bufnr");
-        ensureNumber(bufnr);
-        await denops.call("setbufline", bufnr, 1, text);
-        await denops.cmd("nnoremap <silent> <buffer> q :bw!<CR>");
-        resultWinID = await denops.call("win_getid") as number;
-        await denops.call("win_gotoid", currentWinID);
+      if (usePopupWindow) {
+        if (await denops.call("has", "nvim")) {
+          await popupWindow(denops, text);
+        } else {
+          await floatWindow(denops, text);
+        }
+        return;
       }
+
+      normalWindow(denops, text);
     },
   };
 }
