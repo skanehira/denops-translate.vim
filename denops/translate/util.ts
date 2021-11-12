@@ -100,3 +100,29 @@ export async function parseArgs(
 
   return opt;
 }
+
+const charcount = (str: string): number => {
+  let len = 0;
+  str = escape(str);
+  for (let i = 0; i < str.length; i++, len++) {
+    if (str.charAt(i) == "%") {
+      if (str.charAt(++i) == "u") {
+        i += 3;
+        len++;
+      }
+      i++;
+    }
+  }
+  return len;
+};
+
+export const textWidth = (text: string[]): number => {
+  let max = charcount(text[0]);
+  for (const t of text.slice(1)) {
+    const tl = charcount(t);
+    if (tl > max) {
+      max = tl;
+    }
+  }
+  return max;
+};

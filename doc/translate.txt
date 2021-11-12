@@ -57,17 +57,21 @@ INTERFACE					*translate-interface*
 VARIABLES					*translate-variables*
 
 g:translate_source				*g:translate_source*
-	Default value: "en"
-	The language code is bellow.
-	https://cloud.google.com/translate/docs/languages
+  Default value: "en"
+  The language code is bellow.
+  https://cloud.google.com/translate/docs/languages
 
 g:translate_target				*g:translate_target*
-	Default value: "ja"
-	The language code is bellow.
-	https://cloud.google.com/translate/docs/languages
+  Default value: "ja"
+  The language code is bellow.
+  https://cloud.google.com/translate/docs/languages
 
-g:translate_endpoint				*translate_endpoint*
-	The translate api endpoint.
+g:translate_endpoint				*g:translate_endpoint*
+  The translate api endpoint.
+
+g:translate_popup_window			*g:translate_popup_window*
+  Default value: 1
+  Use popup/float window to display translate result.
 
 ------------------------------------------------------------------------------
 COMMANDS					*translate-commands*
