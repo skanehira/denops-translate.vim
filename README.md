@@ -1,6 +1,9 @@
 # denops-translate.vim
 A new [translate.vim](https://github.com/skanehira/translate.vim)
 
+## Requirements
+- [denops.vim](https://github.com/vim-denops/denops.vim)
+
 ## Usage
 ```vim
 :Translate[!] [{source} {target}] [{text}]
