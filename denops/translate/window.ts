@@ -1,7 +1,7 @@
 import { Denops, ensureNumber } from "./deps.ts";
 import { textWidth } from "./util.ts";
 
-export async function popupWindow(denops: Denops, text: string[]) {
+export async function floatWindow(denops: Denops, text: string[]) {
   const height = text.length;
   const width = textWidth(text);
   const buf = await denops.call("nvim_create_buf", 0, 1);
@@ -10,7 +10,7 @@ export async function popupWindow(denops: Denops, text: string[]) {
     "relative": "cursor",
     "width": width,
     "height": height,
-    "col": 0,
+    "col": width + 2,
     "row": 0 - height - 2,
     "anchor": "NE",
     "style": "minimal",
@@ -27,7 +27,7 @@ export async function popupWindow(denops: Denops, text: string[]) {
   );
 }
 
-export async function floatWindow(denops: Denops, text: string[]) {
+export async function popupWindow(denops: Denops, text: string[]) {
   const height = text.length;
   const width = textWidth(text);
   const opts = {

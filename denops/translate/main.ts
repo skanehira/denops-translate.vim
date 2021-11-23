@@ -99,9 +99,9 @@ Usage:
       const text = (await resp.text() as string).split("\n");
       if (usePopupWindow) {
         if (await denops.call("has", "nvim")) {
-          await popupWindow(denops, text);
-        } else {
           await floatWindow(denops, text);
+        } else {
+          await popupWindow(denops, text);
         }
         return;
       }

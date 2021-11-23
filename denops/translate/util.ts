@@ -79,7 +79,7 @@ export async function parseArgs(
   const opt = {
     source: source,
     target: target,
-    text: message.join("\n"), // TODO support CLRF
+    text: message.join("\n"),
   } as Option;
 
   if (parts.length >= 2) {
