@@ -12,7 +12,7 @@ export async function parseArgs(
   bang: boolean,
   start: number,
   end: number,
-  arg: string,
+  arg: string
 ): Promise<Option> {
   const parts: string[] = [];
 
@@ -54,9 +54,9 @@ export async function parseArgs(
       break;
     case 2:
     case 0:
-      for (
-        const m of await denops.eval(`getline(${start}, ${end})`) as string[]
-      ) {
+      for (const m of (await denops.eval(
+        `getline(${start}, ${end})`
+      )) as string[]) {
         message.push(m);
       }
       break;
@@ -65,16 +65,8 @@ export async function parseArgs(
     }
   }
 
-  const source = await vars.g.get<string>(
-    denops,
-    "translate_source",
-    "en",
-  );
-  const target = await vars.g.get<string>(
-    denops,
-    "translate_target",
-    "ja",
-  );
+  const source = await vars.g.get<string>(denops, "translate_source", "en");
+  const target = await vars.g.get<string>(denops, "translate_target", "ja");
 
   const opt = {
     source: source,
@@ -100,29 +92,3 @@ export async function parseArgs(
 
   return opt;
 }
-
-const charcount = (str: string): number => {
-  let len = 0;
-  str = escape(str);
-  for (let i = 0; i < str.length; i++, len++) {
-    if (str.charAt(i) == "%") {
-      if (str.charAt(++i) == "u") {
-        i += 3;
-        len++;
-      }
-      i++;
-    }
-  }
-  return len;
-};
-
-export const textWidth = (text: string[]): number => {
-  let max = charcount(text[0]);
-  for (const t of text.slice(1)) {
-    const tl = charcount(t);
-    if (tl > max) {
-      max = tl;
-    }
-  }
-  return max;
-};

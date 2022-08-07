@@ -69,9 +69,14 @@ g:translate_target				*g:translate_target*
 g:translate_endpoint				*g:translate_endpoint*
   The translate api endpoint.
 
-g:translate_popup_window			*g:translate_popup_window*
-  Default value: 1
-  Use popup/float window to display translate result.
+g:translate_ui					*g:translate_ui*
+  Default value: 'popup'
+  UI to display translation results.
+  If option is omitted, output will be echoed.
+  Valid values are as follows.
+
+    'popup'  - output to a popup/float window
+    'buffer' - output to a buffer
 
 ------------------------------------------------------------------------------
 COMMANDS					*translate-commands*
@@ -87,9 +92,6 @@ KEY-MAPPINGS					*translate-key-mappings*
 
 <Plug>(Translate)				*<Plug>(Translate)*
 	Translate selected line.
-
-<Plug>(VTranslate)				*<Plug>(VTranslate)*
-	Translate selected lines.
 
 ------------------------------------------------------------------------------
 FUNCTIONS					*translate-functions*

@@ -1,4 +1,4 @@
-import { assertEquals, assertThrowsAsync, Denops, test } from "./deps.ts";
+import { assertEquals, assertRejects, Denops, test } from "./deps.ts";
 import { parseArgs } from "./util.ts";
 
 {
@@ -141,12 +141,12 @@ import { parseArgs } from "./util.ts";
       mode: "all",
       name: tt.name,
       fn: async (denops: Denops) => {
-        await assertThrowsAsync(
+        await assertRejects(
           async () => {
             await parseArgs(denops, tt.bang, tt.start, tt.end, tt.args);
           },
           Error,
-          tt.want,
+          tt.want
         );
       },
     });
