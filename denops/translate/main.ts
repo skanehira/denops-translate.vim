@@ -14,7 +14,7 @@ const defaultEndpoint =
 
 export async function main(denops: Denops): Promise<void> {
   await denops.cmd(
-    `command! -bang -range -nargs=? Translate call denops#notify("${denops.name}", "translate", ["<bang>", <line1>, <line2>, <f-args>])`,
+    `command! -bang -range -nargs=? Translate call denops#notify("${denops.name}", "translate", ["<bang>", <line1>, <line2>, <f-args>])`
   );
 
   const maps = [
@@ -31,14 +31,9 @@ export async function main(denops: Denops): Promise<void> {
   ];
 
   for (const map of maps) {
-    mapping.map(
-      denops,
-      map.lhs,
-      map.rhs,
-      {
-        mode: map.mode as Mode[],
-      },
-    );
+    mapping.map(denops, map.lhs, map.rhs, {
+      mode: map.mode as Mode[],
+    });
   }
 
   denops.dispatcher = {
@@ -46,10 +41,8 @@ export async function main(denops: Denops): Promise<void> {
       bang: unknown,
       start: unknown,
       end: unknown,
-      arg: unknown,
+      arg: unknown
     ): Promise<void> {
-      ensureNumber(start);
-      ensureNumber(end);
       ensureString(bang);
 
       let opt = {} as Option;
@@ -57,9 +50,9 @@ export async function main(denops: Denops): Promise<void> {
         opt = await parseArgs(
           denops,
           bang === "!",
-          start,
-          end,
-          arg ? arg as string : "",
+          ensureNumber(start),
+          ensureNumber(end),
+          arg ? (arg as string) : ""
         );
       } catch (e) {
         console.error(`
@@ -75,13 +68,13 @@ Usage:
       const endpoint = await vars.g.get<string>(
         denops,
         "translate_endpoint",
-        defaultEndpoint,
+        defaultEndpoint
       );
 
       const usePopupWindow = await vars.g.get<boolean>(
         denops,
         "translate_popup_window",
-        true,
+        true
       );
 
       ensureString(endpoint);
@@ -96,7 +89,7 @@ Usage:
         body: JSON.stringify(body),
       });
 
-      const text = (await resp.text() as string).split("\n");
+      const text = ((await resp.text()) as string).split("\n");
       if (usePopupWindow) {
         if (await denops.call("has", "nvim")) {
           await floatWindow(denops, text);
