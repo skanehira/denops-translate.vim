@@ -1,3 +1,6 @@
+DIR_NAME := $(shell basename `git rev-parse --show-toplevel` .vim)
+PLUGIN_NAME := $(shell echo $(DIR_NAME) | cut -d "-" -f 2)
+
 .PHONY: init
 init:
 	@repo=$$(basename `git rev-parse --show-toplevel`) && repo=($${repo/-/ }) && repo=$${repo[1]/\.*/ } && mv denops/template denops/$${repo}
@@ -15,6 +18,6 @@ test-local:
 test:
 	@deno test -A --unstable
 
-.PHONY: update-deps
-update-deps:
-	@udd denops/template/deps.ts
+.PHONY: deps
+deps:
+	@deno run -A https://deno.land/x/udd@0.7.3/main.ts denops/$(PLUGIN_NAME)/deps.ts
