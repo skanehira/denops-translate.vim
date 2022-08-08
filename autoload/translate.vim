@@ -47,7 +47,7 @@ function! translate#buffer(text) abort
   call setbufline(bufnr, 1, a:text)
 endfunction
 
-function s:get_windoe_width_height(text) abort
+function s:get_window_width_height(text) abort
   let height = len(a:text)
   let winheight = winheight(0)
   if height > winheight
@@ -65,7 +65,7 @@ endfunction
 
 if has('nvim')
   function! translate#window(text) abort
-    let [height, width] = s:get_windoe_width_height(a:text)
+    let [height, width] = s:get_window_width_height(a:text)
     let bufnr = nvim_create_buf(0, 1)
     call nvim_buf_set_lines(bufnr,0, -1, 1, a:text)
     let opt = {
@@ -96,7 +96,7 @@ else
     return popup_filter_menu(a:id, a:key)
   endfunction
   function! translate#window(text) abort
-    let [height, width] = s:get_windoe_width_height(a:text)
+    let [height, width] = s:get_window_width_height(a:text)
     let opt = {
           \ 'pos': 'topleft',
           \ 'border': [1, 1, 1, 1],
