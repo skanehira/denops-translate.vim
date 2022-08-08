@@ -1,0 +1,34 @@
+let s:assert = themis#helper('assert')
+
+function WaitDenopsLoading()
+  let s:result = denops#plugin#wait('translate', {'interval': 1, 'timeout': 3000})
+  if s:result !=# 0
+    call s:assert.fail('k8s is not ready, result: ' .. s:result)
+  endif
+endfunction
+
+function! GetPopupText()
+  if has('nvim')
+    let winids = nvim_list_wins()
+    if len(winids) != 2
+      let winid = -1
+    else
+      let winid =  winids[1]
+    endif
+  else
+    let winids = popup_list()
+    if len(winids) != 1
+      let winid = -1
+    else
+      let winid = winids[0]
+    endif
+  endif
+  let bufnr = winbufnr(winid)
+  let result = getbufline(bufnr, 1, '$')
+  if has('nvim')
+    bw!
+  else
+    call popup_close(winid)
+  endif
+  return result
+endfunction
