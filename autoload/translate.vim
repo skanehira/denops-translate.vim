@@ -83,6 +83,18 @@ if has('nvim')
     call win_execute(winid, 'nnoremap <silent> <buffer> q :bw!<CR>')
   endfunction
 else
+  function! s:filter(id, key) abort
+    if a:key ==# 'q'
+      call popup_close(a:id)
+      return 1
+    elseif a:key ==# 'y' || a:key ==# 'Y'
+      call setreg(v:register, win_execute(a:id, "%p"))
+      call popup_close(a:id)
+      return 1
+    endif
+
+    return popup_filter_menu(a:id, a:key)
+  endfunction
   function! translate#window(text) abort
     let [height, width] = s:get_windoe_width_height(a:text)
     let opt = {
@@ -90,8 +102,12 @@ else
           \ 'border': [1, 1, 1, 1],
           \ 'line': printf('cursor-%d', height + 2),
           \ 'maxwidth': width,
+          \ 'maxheight': height,
           \ 'borderchars': ['─', '│', '─', '│', '╭', '╮', '╯', '╰'],
           \ 'moved': 'any',
+          \ 'filter': function('s:filter'),
+          \ 'mapping': 0,
+          \ 'cursorline': 1,
           \ }
     call popup_atcursor(a:text, opt)
   endfunction

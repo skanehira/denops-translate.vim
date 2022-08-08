@@ -79,6 +79,17 @@ g:translate_ui					*g:translate_ui*
     'buffer' - output to a buffer
     ''       - output to commandline
 
+  NOTE: about Vim's popup window
+        Vim's popup window is not a normal window.
+        Therefore, you cannot focus it or do anything with it like you can 
+        with a normal window.
+        To solve this problem, translate.vim provides the following convenient
+        key mappings.
+
+          x/q/Esc/CTRL-c - Close popup window
+          j/k            - Cursor down/up
+          y/Y            - Yank results
+
 ------------------------------------------------------------------------------
 COMMANDS					*translate-commands*
 
