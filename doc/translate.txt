@@ -72,11 +72,12 @@ g:translate_endpoint				*g:translate_endpoint*
 g:translate_ui					*g:translate_ui*
   Default value: 'popup'
   UI to display translation results.
-  If option is omitted, output will be echoed.
+  If option is omitted, results will output to a popup/float window.
   Valid values are as follows.
 
     'popup'  - output to a popup/float window
     'buffer' - output to a buffer
+    ''       - output to commandline
 
 ------------------------------------------------------------------------------
 COMMANDS					*translate-commands*
