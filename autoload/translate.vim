@@ -49,7 +49,17 @@ endfunction
 
 function s:get_windoe_width_height(text) abort
   let height = len(a:text)
+  let winheight = winheight(0)
+  if height > winheight
+    let height = winheight
+  endif
+
   let width = max(map(copy(a:text), { _, text -> strdisplaywidth(text) }))
+  let winwidth = winwidth(0)
+  if width > winwidth
+    let width = winwidth
+  endif
+
   return [height, width]
 endfunction
 
@@ -63,7 +73,7 @@ if has('nvim')
           \ 'width': width,
           \ 'height': height,
           \ 'col': width + 2,
-          \ 'row': 0 - height - 2,
+          \ 'row': -height - 2,
           \ 'anchor': 'NE',
           \ 'style': 'minimal',
           \ 'focusable': v:true,
