@@ -82,7 +82,7 @@ g:translate_endpoint				*g:translate_endpoint*
         If you use DeepL, you need to append the authentication key 
         to the following file.
 
-        $DXG_HOME/denops_translate/deepl_authkey
+        $XDG_CONFIG_HOME/denops_translate/deepl_authkey
 
 g:translate_ui					*g:translate_ui*
   Default value: 'popup'
