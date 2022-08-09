@@ -1,5 +1,4 @@
 import { Denops, ensureString, vars } from "./deps.ts";
-import { validLanguages } from "./languages.ts";
 
 export type Option = {
   source: string;
@@ -54,9 +53,7 @@ export async function parseArgs(
       break;
     case 2:
     case 0:
-      for (const m of (await denops.eval(
-        `getline(${start}, ${end})`
-      )) as string[]) {
+      for (const m of (await denops.call("getline", start, end)) as string[]) {
         message.push(m);
       }
       break;
@@ -81,13 +78,6 @@ export async function parseArgs(
 
   if (bang) {
     [opt.source, opt.target] = [opt.target, opt.source];
-  }
-
-  if (!validLanguages.has(opt.source)) {
-    throw new Error(`invalid language: ${opt.source}`);
-  }
-  if (!validLanguages.has(opt.target)) {
-    throw new Error(`invalid language: ${opt.target}`);
   }
 
   return opt;
