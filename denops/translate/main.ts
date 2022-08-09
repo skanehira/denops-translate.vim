@@ -1,15 +1,5 @@
-import {
-  Denops,
-  ensureNumber,
-  ensureString,
-  mapping,
-  Mode,
-  vars,
-} from "./deps.ts";
-import { Option, parseArgs } from "./util.ts";
-
-const defaultEndpoint =
-  "https://script.google.com/macros/s/AKfycbywwDmlmQrNPYoxL90NCZYjoEzuzRcnRuUmFCPzEqG7VdWBAhU/exec";
+import { Denops, ensureNumber, ensureString, mapping, Mode } from "./deps.ts";
+import { buildOption, makeRequestBody, handleResponse } from "./helper.ts";
 
 export async function main(denops: Denops): Promise<void> {
   const maps = [
@@ -35,36 +25,22 @@ export async function main(denops: Denops): Promise<void> {
     ): Promise<string[]> {
       ensureString(bang);
 
-      let opt = {} as Option;
-      try {
-        opt = await parseArgs(
-          denops,
-          bang === "!",
-          ensureNumber(start),
-          ensureNumber(end),
-          arg ? (arg as string) : ""
-        );
-      } catch (e) {
-        throw e.message;
-      }
-
-      const endpoint = await vars.g.get<string>(
+      const opt = await buildOption(
         denops,
-        "translate_endpoint",
-        defaultEndpoint
+        bang === "!",
+        ensureNumber(start),
+        ensureNumber(end),
+        arg ? (arg as string) : ""
       );
 
-      const body = {
-        source: opt.source,
-        target: opt.target,
-        text: opt.text,
-      };
+      const body = makeRequestBody(opt);
 
-      const resp = await fetch(endpoint, {
+      const resp = await fetch(opt.endpoint, {
         method: "POST",
-        body: JSON.stringify(body),
+        body: body,
       });
-      return ((await resp.text()) as string).split("\n");
+
+      return handleResponse(resp, opt);
     },
   };
 }

@@ -61,13 +61,28 @@ g:translate_source				*g:translate_source*
   The language code is bellow.
   https://cloud.google.com/translate/docs/languages
 
+  NOTE: if you are using DeepL endpoint
+  https://www.deepl.com/ja/docs-api/translating-text/request/
+
 g:translate_target				*g:translate_target*
   Default value: "ja"
   The language code is bellow.
   https://cloud.google.com/translate/docs/languages
 
+  NOTE: If you are using DeepL endpoint
+  https://www.deepl.com/ja/docs-api/translating-text/request/
+
 g:translate_endpoint				*g:translate_endpoint*
   The translate api endpoint.
+  You can also use DeepL endpoint.
+>
+    let g:translate_endpoint = 'https://api-free.deepl.com/v2/translate'
+<
+  NOTE: About authkey
+        If you use DeepL, you need to append the authentication key 
+        to the following file.
+
+        $DXG_HOME/denops_translate/deepl_authkey
 
 g:translate_ui					*g:translate_ui*
   Default value: 'popup'
@@ -79,7 +94,7 @@ g:translate_ui					*g:translate_ui*
     'buffer' - output to a buffer
     ''       - output to commandline
 
-  NOTE: about Vim's popup window
+  NOTE: About Vim's popup window
         Vim's popup window is not a normal window.
         Therefore, you cannot focus it or do anything with it like you can 
         with a normal window.
