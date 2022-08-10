@@ -6,5 +6,5 @@ export * from "https://deno.land/x/denops_std@v3.8.1/test/mod.ts";
 export * as vars from "https://deno.land/x/denops_std@v3.8.1/variable/mod.ts";
 export * as mapping from "https://deno.land/x/denops_std@v3.8.1/mapping/mod.ts";
 export * from "https://deno.land/x/denops_std@v3.8.1/mapping/types.ts";
-export { default as xdg } from "https://deno.land/x/xdg@v9.4.0/src/mod.deno.ts";
-export * as path from "https://deno.land/std@0.142.0/path/mod.ts";
+export { default as xdg } from "https://deno.land/x/xdg@v10.3.0/src/mod.deno.ts";
+export * as path from "https://deno.land/std@0.151.0/path/mod.ts";
