@@ -3,7 +3,7 @@ let s:assert = themis#helper('assert')
 function WaitDenopsLoading()
   let s:result = denops#plugin#wait('translate', {'interval': 1, 'timeout': 3000})
   if s:result !=# 0
-    call s:assert.fail('k8s is not ready, result: ' .. s:result)
+    call s:assert.fail('translate.vim is not ready, result: ' .. s:result)
   endif
 endfunction
 
