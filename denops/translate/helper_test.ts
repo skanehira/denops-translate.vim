@@ -1,5 +1,5 @@
 import { assertEquals, Denops, test } from "./deps.ts";
-import { buildOption, defaultEndpoint } from "./helper.ts";
+import { buildOption } from "./helper.ts";
 
 const tests = [
   {
@@ -9,7 +9,7 @@ const tests = [
     bang: false,
     args: ``,
     want: {
-      endpoint: defaultEndpoint,
+      endpoint: "",
       isDeepL: false,
       source: "en",
       target: "ja",
@@ -23,7 +23,7 @@ const tests = [
     bang: false,
     args: `"hello world"`,
     want: {
-      endpoint: defaultEndpoint,
+      endpoint: "",
       isDeepL: false,
       source: "en",
       target: "ja",
@@ -37,7 +37,7 @@ const tests = [
     bang: false,
     args: `ja en`,
     want: {
-      endpoint: defaultEndpoint,
+      endpoint: "",
       isDeepL: false,
       source: "ja",
       target: "en",
@@ -51,7 +51,7 @@ const tests = [
     bang: false,
     args: `en ja "hello world"`,
     want: {
-      endpoint: defaultEndpoint,
+      endpoint: "",
       isDeepL: false,
       source: "en",
       target: "ja",
@@ -65,7 +65,7 @@ const tests = [
     bang: false,
     args: `en ja "hello world" gorilla`,
     want: {
-      endpoint: defaultEndpoint,
+      endpoint: "",
       isDeepL: false,
       source: "en",
       target: "ja",
@@ -79,7 +79,7 @@ const tests = [
     bang: false,
     args: `en ja "hello world" "gorilla"`,
     want: {
-      endpoint: defaultEndpoint,
+      endpoint: "",
       isDeepL: false,
       source: "en",
       target: "ja",
@@ -93,7 +93,7 @@ const tests = [
     bang: false,
     args: `en ja "hello 'world' "gorilla"`,
     want: {
-      endpoint: defaultEndpoint,
+      endpoint: "",
       isDeepL: false,
       source: "en",
       target: "ja",
@@ -107,7 +107,7 @@ const tests = [
     bang: true,
     args: `"hello world"`,
     want: {
-      endpoint: defaultEndpoint,
+      endpoint: "",
       isDeepL: false,
       source: "ja",
       target: "en",

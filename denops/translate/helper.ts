@@ -1,17 +1,5 @@
 import { Denops, ensureString, vars, path, xdg } from "./deps.ts";
 
-export type DeepLResponse = {
-  translations: [
-    {
-      detected_source_language: string;
-      text: string;
-    }
-  ];
-};
-
-export const defaultEndpoint =
-  "https://script.google.com/macros/s/AKfycbywwDmlmQrNPYoxL90NCZYjoEzuzRcnRuUmFCPzEqG7VdWBAhU/exec";
-
 export const deeplAuthokeyPath = path.join(
   xdg.config(),
   "denops_translate",
@@ -107,11 +95,7 @@ export async function buildOption(
 
   const source = await vars.g.get<string>(denops, "translate_source", "en");
   const target = await vars.g.get<string>(denops, "translate_target", "ja");
-  const endpoint = await vars.g.get<string>(
-    denops,
-    "translate_endpoint",
-    defaultEndpoint
-  );
+  const endpoint = await vars.g.get<string>(denops, "translate_endpoint", "");
 
   const opt = {
     endpoint: endpoint,
@@ -135,40 +119,4 @@ export async function buildOption(
   }
 
   return opt;
-}
-
-export function makeRequestBody(opt: Option): BodyInit {
-  if (opt.isDeepL) {
-    const body = new FormData();
-    body.append("auth_key", opt.authKey!);
-    body.append("source_lang", opt.source);
-    body.append("target_lang", opt.target);
-    body.append("text", opt.text);
-    return body;
-  }
-
-  const body = {
-    source: opt.source,
-    target: opt.target,
-    text: opt.text,
-  };
-
-  return JSON.stringify(body);
-}
-
-export async function handleResponse(
-  resp: Response,
-  opt: Option
-): Promise<string[]> {
-  if (opt.isDeepL) {
-    // INFO: DeepL's error kinds
-    // https://www.deepl.com/ja/docs-api/accessing-the-api/error-handling/
-    if (resp.status != 200) {
-      throw new Error(`status: ${resp.status}, text: ${resp.statusText}`);
-    }
-    return ((await resp.json()) as DeepLResponse).translations[0].text.split(
-      "\r\n"
-    );
-  }
-  return ((await resp.text()) as string).split("\n");
 }
