@@ -1,7 +1,17 @@
-import { Denops, ensureNumber, ensureString, mapping, Mode } from "./deps.ts";
-import { buildOption, makeRequestBody, handleResponse } from "./helper.ts";
+import {
+  GTR,
+  Denops,
+  ensureNumber,
+  ensureString,
+  mapping,
+  Mode,
+} from "./deps.ts";
+import { buildOption } from "./helper.ts";
+import * as deepl from "./deepl.ts";
 
 export async function main(denops: Denops): Promise<void> {
+  const gtr = new GTR();
+
   const maps = [
     {
       lhs: "<silent> <Plug>(Translate)",
@@ -33,14 +43,16 @@ export async function main(denops: Denops): Promise<void> {
         arg ? (arg as string) : ""
       );
 
-      const body = makeRequestBody(opt);
+      if (opt.isDeepL) {
+        return deepl.translate(opt);
+      }
 
-      const resp = await fetch(opt.endpoint, {
-        method: "POST",
-        body: body,
+      const { trans } = await gtr.translate(opt.text, {
+        sourceLang: opt.source,
+        targetLang: opt.target,
       });
 
-      return handleResponse(resp, opt);
+      return trans.split("\n");
     },
   };
 }
