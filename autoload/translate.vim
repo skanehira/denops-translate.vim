@@ -64,9 +64,14 @@ function s:get_window_width_height(text) abort
 endfunction
 
 if has('nvim')
+  function! s:focus_oldwin() abort
+    bw!
+    call win_gotoid(s:oldwinid)
+  endfunction
   function! translate#window(text) abort
     let [height, width] = s:get_window_width_height(a:text)
     let bufnr = nvim_create_buf(0, 1)
+    let s:oldwinid = win_getid()
     call nvim_buf_set_lines(bufnr,0, -1, 1, a:text)
     let opt = {
           \ 'relative': 'cursor',
@@ -80,7 +85,7 @@ if has('nvim')
           \ 'border': map(['╭', '─', '╮', '│', '╯', '─', '╰', '│'], { _, v -> [v, 'NormalFloat'] }),
           \ }
     let winid = nvim_open_win(bufnr, 1, opt)
-    call win_execute(winid, 'nnoremap <silent> <buffer> q :bw!<CR>')
+    call win_execute(winid, 'nnoremap <silent> <buffer> q :call <SID>focus_oldwin()<CR>')
   endfunction
 else
   function! s:filter(id, key) abort
