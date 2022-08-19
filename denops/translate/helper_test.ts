@@ -114,6 +114,20 @@ const tests = [
       text: "hello world",
     },
   },
+  {
+    name: "bang with lang",
+    start: 1,
+    end: 1,
+    bang: true,
+    args: `en ja "hello world"`,
+    want: {
+      endpoint: "",
+      isDeepL: false,
+      source: "ja",
+      target: "en",
+      text: "hello world",
+    },
+  },
 ];
 
 for (const tt of tests) {
