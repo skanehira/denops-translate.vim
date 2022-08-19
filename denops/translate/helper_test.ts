@@ -59,7 +59,7 @@ const tests = [
     },
   },
   {
-    name: "tow words",
+    name: "two words",
     start: 1,
     end: 1,
     bang: false,
@@ -73,7 +73,7 @@ const tests = [
     },
   },
   {
-    name: "tow words with double quotation",
+    name: "two words with double quotation",
     start: 1,
     end: 1,
     bang: false,
