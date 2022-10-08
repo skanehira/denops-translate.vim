@@ -14,6 +14,7 @@ const tests = [
       source: "en",
       target: "ja",
       text: "hello",
+      timeout: 30,
     },
   },
   {
@@ -28,6 +29,7 @@ const tests = [
       source: "en",
       target: "ja",
       text: "hello world",
+      timeout: 30,
     },
   },
   {
@@ -42,6 +44,7 @@ const tests = [
       source: "ja",
       target: "en",
       text: "hello\nworld",
+      timeout: 30,
     },
   },
   {
@@ -56,6 +59,7 @@ const tests = [
       source: "en",
       target: "ja",
       text: "hello world",
+      timeout: 30,
     },
   },
   {
@@ -70,6 +74,7 @@ const tests = [
       source: "en",
       target: "ja",
       text: "hello world gorilla",
+      timeout: 30,
     },
   },
   {
@@ -84,6 +89,7 @@ const tests = [
       source: "en",
       target: "ja",
       text: "hello world gorilla",
+      timeout: 30,
     },
   },
   {
@@ -98,6 +104,7 @@ const tests = [
       source: "en",
       target: "ja",
       text: "hello 'world' gorilla",
+      timeout: 30,
     },
   },
   {
@@ -112,6 +119,7 @@ const tests = [
       source: "ja",
       target: "en",
       text: "hello world",
+      timeout: 30,
     },
   },
   {
@@ -126,6 +134,7 @@ const tests = [
       source: "ja",
       target: "en",
       text: "hello world",
+      timeout: 30,
     },
   },
 ];

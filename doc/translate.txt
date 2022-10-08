@@ -105,6 +105,13 @@ g:translate_ui					*g:translate_ui*
           j/k            - Cursor down/up
           y/Y            - Yank results
 
+g:translate_timeout				*g:translate_timeout*
+  A value of request timeout.
+  The unit is seconds.
+  Default value: 30
+
+  NOTE: Currently only DeepL is supported.
+
 ------------------------------------------------------------------------------
 COMMANDS					*translate-commands*
 
