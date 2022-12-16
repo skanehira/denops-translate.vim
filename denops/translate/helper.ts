@@ -1,13 +1,13 @@
-import { Denops, ensureString, vars, path, xdg } from "./deps.ts";
+import { Denops, ensureString, path, vars, xdg } from "./deps.ts";
 
 export const deeplAuthokeyPath = path.join(
   xdg.config(),
   "denops_translate",
-  "deepl_authkey"
+  "deepl_authkey",
 );
 
 export const onece = <A extends unknown, R extends Promise<unknown>>(
-  f: (arg?: A) => R
+  f: (arg?: A) => R,
 ) => {
   let v: R | undefined;
   return (arg?: A): R => {
@@ -21,7 +21,7 @@ export async function readDeepLAuthkey(): Promise<string> {
     return text.trim();
   } catch (e) {
     throw new Error(
-      `Cannot read DeepL's authkey from ${deeplAuthokeyPath}: ${e.message}`
+      `Cannot read DeepL's authkey from ${deeplAuthokeyPath}: ${e.message}`,
     );
   }
 }
@@ -35,6 +35,7 @@ export type Option = {
   source: string;
   target: string;
   text: string;
+  timeout: number; // seconds
 };
 
 export async function buildOption(
@@ -42,7 +43,7 @@ export async function buildOption(
   bang: boolean,
   start: number,
   end: number,
-  arg: string
+  arg: string,
 ): Promise<Option> {
   const parts: string[] = [];
 
@@ -96,6 +97,7 @@ export async function buildOption(
   const source = await vars.g.get<string>(denops, "translate_source", "en");
   const target = await vars.g.get<string>(denops, "translate_target", "ja");
   const endpoint = await vars.g.get<string>(denops, "translate_endpoint", "");
+  const timeout = await vars.g.get<number>(denops, "translate_timeout", 30);
 
   const opt = {
     endpoint: endpoint,
@@ -103,6 +105,7 @@ export async function buildOption(
     source: source,
     target: target,
     text: message.join("\n"),
+    timeout: timeout,
   } as Option;
 
   if (parts.length >= 2) {

@@ -4,7 +4,7 @@ export type DeepLResponse = {
   translations: [
     {
       text: string;
-    }
+    },
   ];
 };
 
@@ -15,10 +15,16 @@ export async function translate(opt: Option): Promise<string[]> {
   body.append("target_lang", opt.target);
   body.append("text", opt.text);
 
+  const controller = new AbortController();
+
+  const id = setTimeout(() => controller.abort(), opt.timeout * 1000);
+
   const resp = await fetch(opt.endpoint, {
     method: "POST",
     body: body,
+    signal: controller.signal,
   });
+  clearTimeout(id);
 
   // INFO: DeepL's error kinds
   // https://www.deepl.com/ja/docs-api/accessing-the-api/error-handling/
@@ -26,6 +32,6 @@ export async function translate(opt: Option): Promise<string[]> {
     throw new Error(`status: ${resp.status}, text: ${resp.statusText}`);
   }
   return ((await resp.json()) as DeepLResponse).translations[0].text.split(
-    "\r\n"
+    "\r\n",
   );
 }
