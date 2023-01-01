@@ -85,7 +85,7 @@ g:translate_endpoint				*g:translate_endpoint*
         $XDG_CONFIG_HOME/denops_translate/deepl_authkey
 
 g:translate_ui					*g:translate_ui*
-  Default value: 'popup'
+  Default value: 'popup'.
   UI to display translation results.
   If option is omitted, results will be displayed in a popup/float window.
   Valid values are as follows.
@@ -94,7 +94,7 @@ g:translate_ui					*g:translate_ui*
     'buffer' - output to a buffer
     ''       - output to commandline
 
-  NOTE: About Vim's popup window
+  NOTE: About Vim's popup window.
         Vim's popup window is not a normal window.
         Therefore, you cannot focus it or do anything with it like you can 
         with a normal window.
@@ -104,6 +104,18 @@ g:translate_ui					*g:translate_ui*
           x/q/Esc/CTRL-c - Close popup window
           j/k            - Cursor down/up
           y/Y            - Yank results
+
+g:translate_sentence_break			*g:translate_sentence_break*
+  The character that how to break sentence.
+  This option is |Dict| like follows.
+
+>
+  let g:translate_sentence_break = {
+        \ 'en': '.',
+        \ 'ja': '。',
+        \ ...
+        \ }
+>
 
 ------------------------------------------------------------------------------
 COMMANDS					*translate-commands*

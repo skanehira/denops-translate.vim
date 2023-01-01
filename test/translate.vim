@@ -6,18 +6,18 @@ call WaitDenopsLoading()
 
 function s:suite.popup()
   let g:translate_ui = 'popup'
-  call setline(1, ['hello', 'world'])
+  call setline(1, ['hello, world'])
   call translate#translate('', 1, 2)
   let got = GetPopupText()
-  call s:assert.equals(got, ['こんにちは', ' 世界'])
+  call s:assert.equals(got, ['こんにちは世界'])
 endfunction
 
 function! s:suite.buffer()
   let g:translate_ui = 'buffer'
-  call setline(1, ['hello', 'world'])
+  call setline(1, ['hello. world'])
   call translate#translate('', 1, 2)
   let got = getbufline('[translate]', 1, '$')
-  call s:assert.equals(got, ['こんにちは', ' 世界'])
+  call s:assert.equals(got, ['こんにちは。', '世界'])
   %bw!
 endfunction
 
