@@ -1,10 +1,11 @@
 import {
-  GTR,
   Denops,
   ensureNumber,
   ensureString,
+  GTR,
   mapping,
   Mode,
+  vars,
 } from "./deps.ts";
 import { buildOption } from "./helper.ts";
 import * as deepl from "./deepl.ts";
@@ -26,12 +27,17 @@ export async function main(denops: Denops): Promise<void> {
     });
   }
 
+  const breakChar = await vars.g.get(denops, "translate_sentence_break", {
+    en: ".",
+    ja: "。",
+  }) as Record<string, string>;
+
   denops.dispatcher = {
     async translate(
       bang: unknown,
       start: unknown,
       end: unknown,
-      arg: unknown
+      arg: unknown,
     ): Promise<string[]> {
       ensureString(bang);
 
@@ -40,19 +46,24 @@ export async function main(denops: Denops): Promise<void> {
         bang === "!",
         ensureNumber(start),
         ensureNumber(end),
-        arg ? (arg as string) : ""
+        arg ? (arg as string) : "",
       );
 
       if (opt.isDeepL) {
         return deepl.translate(opt);
       }
 
-      const { trans } = await gtr.translate(opt.text, {
+      // NOTE: adjust sentence break.
+      const bc = breakChar[opt.source] ?? "";
+      const text = opt.text.split("\n").map((t) => t.trimStart()).join("")
+        .replaceAll(bc, `${bc}\n`);
+
+      const { trans } = await gtr.translate(text, {
         sourceLang: opt.source,
         targetLang: opt.target,
       });
 
-      return trans.split("\n");
+      return trans.split("\n").map((t) => t.trimStart());
     },
   };
 }
