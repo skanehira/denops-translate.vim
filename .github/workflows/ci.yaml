@@ -32,13 +32,19 @@ jobs:
         version:
           - "1.x"
         host_version:
-          - vim: "v8.2.3452"
-            nvim: "v0.6.0"
+          - vim: "v9.0.0472"
+            nvim: "v0.8.0"
     runs-on: ${{ matrix.runner }}
     steps:
       - run: git config --global core.autocrlf false
         if: runner.os == 'Windows'
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          path: "./repo"
+      - uses: actions/checkout@v3
+        with:
+          repository: "vim-denops/denops.vim"
+          path: "./denops.vim"
       - uses: denoland/setup-deno@main
         with:
           deno-version: "${{ matrix.version }}"
@@ -63,22 +69,24 @@ jobs:
           echo ${DENOPS_TEST_NVIM_EXECUTABLE}
         env:
           DENOPS_TEST_NVIM_EXECUTABLE: ${{ steps.nvim.outputs.executable_path }}
-      - name: Clone denops
-        id: denops
-        run: |
-          git clone https://github.com/vim-denops/denops.vim $HOME/denops.vim
-          echo "path=$HOME/denops.vim" >> $GITHUB_OUTPUT
       - name: Setup themis
         id: themis
         run: |
           git clone https://github.com/thinca/vim-themis $HOME/vim-themis
           echo "$HOME/vim-themis/bin" >> $GITHUB_PATH
+      - name: tmate
+        uses: mxschmitt/action-tmate@v3
+        env:
+          DENOPS_TEST_DENOPS_PATH: "../denops.vim"
+          DENOPS_TEST_VIM_EXECUTABLE: ${{ steps.vim.outputs.executable_path }}
+          DENOPS_TEST_NVIM_EXECUTABLE: ${{ steps.nvim.outputs.executable_path }}
       - name: Test
         run: |
           make test
           make test-themis
         env:
-          DENOPS_TEST_VIM_EXECUTABLE: ${{ steps.vim.outputs.executable }}
-          DENOPS_TEST_NVIM_EXECUTABLE: ${{ steps.nvim.outputs.executable }}
-          DENOPS_TEST_DENOPS_PATH: ${{ steps.denops.outputs.path }}
-        timeout-minutes: 5
+          DENOPS_TEST_DENOPS_PATH: "../denops.vim"
+          DENOPS_TEST_VIM_EXECUTABLE: ${{ steps.vim.outputs.executable_path }}
+          DENOPS_TEST_NVIM_EXECUTABLE: ${{ steps.nvim.outputs.executable_path }}
+        timeout-minutes: 3
+        working-directory: ./repo
