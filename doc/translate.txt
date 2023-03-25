@@ -132,6 +132,10 @@ KEY-MAPPINGS					*translate-key-mappings*
 <Plug>(Translate)				*<Plug>(Translate)*
 	Translate selected line.
 
+<Plug>(Translate-reverse)			*<Plug>(Translate-reverse)*
+	Translate selected line.
+	Works the same as using "!" in |:Translate|.
+
 ------------------------------------------------------------------------------
 FUNCTIONS					*translate-functions*
 
