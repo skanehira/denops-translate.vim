@@ -19,6 +19,11 @@ export async function main(denops: Denops): Promise<void> {
       rhs: ":Translate<CR>",
       mode: ["n", "v"],
     },
+    {
+      lhs: "<silent> <Plug>(Translate-reverse)",
+      rhs: ":Translate!<CR>",
+      mode: ["n", "v"],
+    },
   ];
 
   for (const map of maps) {
