@@ -1,12 +1,4 @@
-import {
-  Denops,
-  ensureNumber,
-  ensureString,
-  GTR,
-  mapping,
-  Mode,
-  vars,
-} from "./deps.ts";
+import { Denops, ensure, GTR, is, mapping, Mode, vars } from "./deps.ts";
 import { buildOption } from "./helper.ts";
 import * as deepl from "./deepl.ts";
 
@@ -44,13 +36,11 @@ export async function main(denops: Denops): Promise<void> {
       end: unknown,
       arg: unknown,
     ): Promise<string[]> {
-      ensureString(bang);
-
       const opt = await buildOption(
         denops,
-        bang === "!",
-        ensureNumber(start),
-        ensureNumber(end),
+        ensure(bang, is.String) === "!",
+        ensure(start, is.Number),
+        ensure(end, is.Number),
         arg ? (arg as string) : "",
       );
 
