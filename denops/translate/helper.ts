@@ -1,13 +1,13 @@
-import { Denops, ensureString, vars, path, xdg } from "./deps.ts";
+import { Denops, ensure, is, path, vars, xdg } from "./deps.ts";
 
 export const deeplAuthokeyPath = path.join(
   xdg.config(),
   "denops_translate",
-  "deepl_authkey"
+  "deepl_authkey",
 );
 
 export const onece = <A extends unknown, R extends Promise<unknown>>(
-  f: (arg?: A) => R
+  f: (arg?: A) => R,
 ) => {
   let v: R | undefined;
   return (arg?: A): R => {
@@ -21,7 +21,7 @@ export async function readDeepLAuthkey(): Promise<string> {
     return text.trim();
   } catch (e) {
     throw new Error(
-      `Cannot read DeepL's authkey from ${deeplAuthokeyPath}: ${e.message}`
+      `Cannot read DeepL's authkey from ${deeplAuthokeyPath}: ${e.message}`,
     );
   }
 }
@@ -42,7 +42,7 @@ export async function buildOption(
   bang: boolean,
   start: number,
   end: number,
-  arg: string
+  arg: string,
 ): Promise<Option> {
   const parts: string[] = [];
 
@@ -79,7 +79,7 @@ export async function buildOption(
 
   switch (parts.length) {
     case 1:
-      ensureString(parts[0]);
+      ensure(parts[0], is.String);
       message.push(parts[0]);
       break;
     case 2:
