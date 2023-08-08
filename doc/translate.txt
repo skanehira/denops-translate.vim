@@ -119,10 +119,18 @@ g:translate_sentence_break			*g:translate_sentence_break*
 g:translate_border_chars			*g:translate_border_chars*
   The character list for popup/float window.
   This option is |List| like follows.
+
+  Default value in Vim:
 >
   let g:translate_border_chars = 
 	\ ['─', '│', '─', '│', '╭', '╮', '╯', '╰']
+<
+
+  Default value in Neovim:
 >
+  let g:translate_border_chars = 
+	\ ['╭', '─', '╮', '│', '╯', '─', '╰', '│']
+<
 
 ------------------------------------------------------------------------------
 COMMANDS					*translate-commands*
