@@ -64,6 +64,8 @@ function s:get_window_width_height(text) abort
 endfunction
 
 if has('nvim')
+  let s:border_chars = get(g:, 'translate_border_chars', ['╭', '─', '╮', '│', '╯', '─', '╰', '│'])
+
   function! s:focus_oldwin() abort
     bw!
     call win_gotoid(s:oldwinid)
@@ -82,7 +84,7 @@ if has('nvim')
           \ 'anchor': 'NE',
           \ 'style': 'minimal',
           \ 'focusable': v:true,
-          \ 'border': map(['╭', '─', '╮', '│', '╯', '─', '╰', '│'], { _, v -> [v, 'NormalFloat'] }),
+          \ 'border': map(copy(s:border_chars), { _, v -> [v, 'NormalFloat'] }),
           \ }
     let winid = nvim_open_win(bufnr, 1, opt)
     call win_execute(winid, 'nnoremap <silent> <buffer> q :call <SID>focus_oldwin()<CR>')
@@ -100,6 +102,8 @@ else
 
     return popup_filter_menu(a:id, a:key)
   endfunction
+
+  let s:border_chars = get(g:, 'translate_border_chars', ['─', '│', '─', '│', '╭', '╮', '╯', '╰'])
   function! translate#window(text) abort
     let [height, width] = s:get_window_width_height(a:text)
     let opt = {
@@ -108,7 +112,7 @@ else
           \ 'line': printf('cursor-%d', height + 2),
           \ 'maxwidth': width,
           \ 'maxheight': height,
-          \ 'borderchars': ['─', '│', '─', '│', '╭', '╮', '╯', '╰'],
+          \ 'borderchars': s:border_chars,
           \ 'moved': 'any',
           \ 'filter': function('s:filter'),
           \ 'mapping': 0,
