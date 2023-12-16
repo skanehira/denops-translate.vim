@@ -4,6 +4,9 @@
 
 function! translate#translate(bang, start, end, ...) abort
   try
+    if denops#plugin#wait('translate')
+      return
+    endif
     let text = denops#request('translate', "translate", [a:bang, a:start, a:end] + a:000)
     let ui = get(g:, 'translate_ui', 'popup')
     if ui ==# 'popup'
