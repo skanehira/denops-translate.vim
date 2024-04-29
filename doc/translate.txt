@@ -105,17 +105,6 @@ g:translate_ui					*g:translate_ui*
           j/k            - Cursor down/up
           y/Y            - Yank results
 
-g:translate_sentence_break			*g:translate_sentence_break*
-  The character that how to break sentence.
-  This option is |Dict| like follows.
-
->
-  let g:translate_sentence_break = {
-        \ 'en': '.',
-        \ 'ja': '。',
-        \ ...
-        \ }
->
 g:translate_border_chars			*g:translate_border_chars*
   The character list for popup/float window.
   This option is |List| like follows.
