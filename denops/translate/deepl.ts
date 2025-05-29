@@ -9,15 +9,20 @@ export type DeepLResponse = {
 };
 
 export async function translate(opt: Option): Promise<string[]> {
-  const body = new FormData();
-  body.append("auth_key", opt.authKey!);
-  body.append("source_lang", opt.source);
-  body.append("target_lang", opt.target);
-  body.append("text", opt.text);
+  const body = {
+    source_lang: opt.source,
+    target_lang: opt.target,
+    text: [opt.text.replace(/[\r\n]/g, "")],
+  };
+  const headers = new Headers();
+  headers.append("Authorization", `DeepL-Auth-Key ${opt.authKey}`);
+  headers.append("User-Agent", `denops-translate`);
+  headers.append("Content-Type", `application/json`);
 
   const resp = await fetch(opt.endpoint, {
     method: "POST",
-    body: body,
+    body: JSON.stringify(body),
+    headers: headers,
   });
 
   // INFO: DeepL's error kinds
